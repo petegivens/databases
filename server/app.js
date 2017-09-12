@@ -18,6 +18,21 @@ app.set('port', 3000);
 app.use(morgan('dev'));
 app.use(parser.json());
 
+db.User.sync();
+db.Message.sync()
+.then(() => {
+  return db.Message.destroy({
+    truncate: true
+  });
+})
+.then(() => {
+  db.Message.create({
+    text: 'Hello',
+    username: 'Pete',
+    roomname: 'lobby'
+  });
+});
+
 // Set up our routes
 app.use('/classes', router);
 
@@ -29,4 +44,3 @@ if (!module.parent) {
   app.listen(app.get('port'));
   console.log('Listening on', app.get('port'));
 }
-

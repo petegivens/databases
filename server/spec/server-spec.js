@@ -4,6 +4,7 @@
 var mysql = require('mysql');
 var request = require('request'); // You might need to npm install the request module!
 var expect = require('chai').expect;
+var db = require('./db');
 
 describe('Persistent Node Chat Server', function() {
   var dbConnection;
@@ -105,6 +106,15 @@ describe('Persistent Node Chat Server', function() {
         expect(users[0].name).to.equal('TestUser');
         done();
       });
+    });
+  });
+
+  it('should retrieve list of users from users table', function(done) {
+    db.Users.create({
+      name: 'Ross'
+    })
+    .then((result) => {
+
     });
   });
 });
