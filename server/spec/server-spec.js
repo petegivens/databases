@@ -20,6 +20,7 @@ describe('Persistent Node Chat Server', function() {
 
     /* Empty the db table before each test so that multiple tests
      * (or repeated runs of the tests) won't screw each other up: */
+    dbConnection.query('truncate users');
     dbConnection.query('truncate ' + tablename, done);
   });
 
@@ -82,6 +83,26 @@ describe('Persistent Node Chat Server', function() {
         var messageLog = JSON.parse(body);
         expect(messageLog[0].text).to.equal('Men like you can never change!');
         expect(messageLog[0].roomname).to.equal('main');
+        done();
+      });
+    });
+  });
+
+  it('should add new users to users table', function(done) {
+    var queryString = "INSERT INTO users (name) VALUES (?)";
+    var queryArgs = ['TestUser'];
+    // TODO - The exact query string and query args to use
+    // here depend on the schema you design, so I'll leave
+    // them up to you. */
+
+    dbConnection.query(queryString, queryArgs, function(err) {
+      if (err) { throw err; }
+
+      request('http://127.0.0.1:3000/classes/users', function(error, response, body) {
+        console.log('body before parse: ', body);
+        var users = JSON.parse(body);
+        console.log('users after parse: ', users);
+        expect(users[0].name).to.equal('TestUser');
         done();
       });
     });
