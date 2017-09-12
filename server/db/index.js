@@ -8,7 +8,8 @@ var Sequelize = require('sequelize');
 var db = new Sequelize('chat', 'student', 'student');
 
 var User = db.define('users', {
-  name: Sequelize.STRING
+  name: Sequelize.STRING,
+  background: Sequelize.STRING
   // createdAt: {
   //   type: Sequelize.DATE,
   //   defaultValue: Sequelize.NOW

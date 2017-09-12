@@ -21,6 +21,11 @@ module.exports = {
         res.status(200).send(result);
       });
     },
+    getUser: function (req, res) {
+      models.users.getUser( req.params.username, (err, result) => {
+        res.status(200).send(result);
+      });
+    },
     post: function (req, res) {
       models.users.post(req.body, (err, result) => {
         res.status(201).send(result);

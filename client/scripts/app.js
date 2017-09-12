@@ -14,6 +14,28 @@ var app = {
     // Get username
     app.username = window.location.search.substr(10);
 
+    $.ajax({
+      url: `http://localhost:3000/classes/users/${app.username}`,
+      type: 'GET',
+      success: function(data) {
+        if (data.length > 0) {
+
+          $('body').css('background-color', data[0].background || 'white');
+        } else {
+          var background = prompt('Choose your background color');
+          $.ajax({
+            url: 'http://localhost:3000/classes/users',
+            type: 'POST',
+            data: JSON.stringify({username: app.username, background: background}),
+            contentType: 'application/json',
+            success: function(data) {
+              $('body').css('background-color', data.background || 'white');
+            }
+          });
+        }
+      }
+    });
+
     // Cache jQuery selectors
     app.$message = $('#message');
     app.$chats = $('#chats');
@@ -37,7 +59,6 @@ var app = {
 
   send: function(message) {
     app.startSpinner();
-    // console.log('message before POST:', message);
     // POST the message to the server
     $.ajax({
       url: app.server,

@@ -38,9 +38,23 @@ module.exports = {
         callback(err);
       });
     },
+    getUser: function(username, callback) {
+      db.User.findAll({
+        where: {
+          name: username
+        }
+      })
+      .then((result) => {
+        callback(null, result);
+      })
+      .catch((err) => {
+        callback(err);
+      });
+    },
     post: function (user, callback) {
       db.User.create({
-        name: user.username
+        name: user.username,
+        background: user.background
       })
       .then((result) => {
         callback(null, result);
